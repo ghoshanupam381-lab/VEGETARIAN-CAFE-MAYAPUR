@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegetarian Cafe | Authentic Feast</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+            color: #1f2937;
+        }
+        .header-title {
+            font-family: 'Merriweather', serif;
+        }
+        .hero-bg {
+            background-color: #374151; /* Deep Gray */
+            background-image: url('https://placehold.co/1200x500/374151/FFFFFF?text=North+Indian+Feast');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-overlay {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+        }
+        .tab-active {
+            background-color: #FF5733 !important; /* Orange accent */
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(255, 87, 51, 0.3);
+        }
+        .menu-item-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .menu-item-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        /* Floating Cart Button Style */
+        #cart-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        #cart-button:hover {
+            transform: scale(1.05);
+        }
+        /* Quantity Input Style */
+        .quantity-input {
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            padding: 2px;
+            background-color: #fff;
+            color: #1f2937;
+        }
+        .price-text {
+            color: #FF5733; /* Orange Accent */
+            font-weight: 600;
+        }
+        .qty-btn {
+             transition: background-color 0.2s;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-extrabold text-[#374151]">VEGETARIAN <span class="text-orange-600">CAFE</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                    <a href="#home" class="hover:text-orange-600">Home</a>
+                    <a href="#about" class="hover:text-orange-600">About</a>
+                    <a href="#menu-section" class="hover:text-orange-600">Menu</a>
+                </div>
+                <button onclick="sendWhatsAppOrder()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    Order Now
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Matches Image Style) -->
+    <header id="home" class="hero-bg py-32 sm:py-40">
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="relative max-w-4xl mx-auto px-4 text-center text-white">
+            <span class="bg-green-600 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 inline-block">100% PURE VEGETARIAN</span>
+            <h1 class="header-title text-4xl md:text-6xl font-extrabold mt-2 mb-4 leading-tight">
+                Authentic Flavors of India
+            </h1>
+            <p class="text-lg md:text-xl font-light text-gray-300 max-w-2xl mx-auto">
+                From creamy Paneer Butter Masala to crispy Tandoori Rotis. Experience the divine taste of pure vegetarian cuisine prepared with devotion.
+            </p>
+            <div class="mt-8 flex justify-center space-x-4">
+                <a href="#menu-section" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center shadow-lg">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
+                    View Menu & Order
+                </a>
+                <!-- UPDATED MAP LINK HERE -->
+                <a href="https://maps.app.goo.gl/2aPczorqTpt8aZM18" target="_blank" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center shadow-lg">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg>
+                    Locate Us
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About/Features Section (Matches Image Style) -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-orange-50 p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="text-2xl text-orange-600 mb-2">🌱</div>
+                    <h3 class="font-bold text-lg mb-2">100% Pure Veg</h3>
+                    <p class="text-sm text-gray-600">We adhere to strict vegetarian standards. No meat, no eggs, just pure, wholesome ingredients.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="bg-green-50 p-6 rounded-lg shadow-md border-t-4 border-green-600">
+                    <div class="text-2xl text-green-600 mb-2">✨</div>
+                    <h3 class="font-bold text-lg mb-2">Fresh Ingredients</h3>
+                    <p class="text-sm text-gray-600">Local paneer, fresh vegetables, and authentic spices, sourced daily for the best flavor.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md border-t-4 border-blue-600">
+                    <div class="text-2xl text-blue-600 mb-2">⏱️</div>
+                    <h3 class="font-bold text-lg mb-2">Quick Service</h3>
+                    <p class="text-sm text-gray-600">Perfect for pilgrims and travelers. Delicious food served hot and fast, ready for pickup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Ordering Section -->
+    <section id="menu-section" class="py-16 bg-f7f7f7">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="header-title text-4xl font-bold text-gray-900">Our Menu</h2>
+                <p class="mt-2 text-gray-600">Explore our extensive menu. Add items and send your order via WhatsApp!</p>
+                
+                <!-- Search Bar -->
+                <div class="mt-6 max-w-lg mx-auto">
+                    <input type="text" id="menu-search" onkeyup="filterMenu()" placeholder="Search for a dish..." class="w-full p-3 border border-gray-300 rounded-full shadow-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-colors">
+                </div>
+
+                <!-- Tabs/Categories - NEW ORDER -->
+                <div class="mt-8 flex flex-wrap justify-center gap-2">
+                    <button class="menu-tab tab-active bg-orange-500 text-white font-medium px-4 py-2 rounded-full text-sm" data-category="All">All</button>
+                    <button class="menu-tab bg-white text-gray-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-full text-sm shadow-md" data-category="Snacks & Dosa">Snacks & Dosa</button>
+                    <button class="menu-tab bg-white text-gray-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-full text-sm shadow-md" data-category="Roti & Paratha">Roti & Paratha</button>
+                    <button class="menu-tab bg-white text-gray-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-full text-sm shadow-md" data-category="Main Course">Main Course</button>
+                    <button class="menu-tab bg-white text-gray-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-full text-sm shadow-md" data-category="Rice & Biryani">Rice & Biryani</button>
+                    <button class="menu-tab bg-white text-gray-600 hover:bg-gray-100 font-medium px-4 py-2 rounded-full text-sm shadow-md" data-category="Indo-Chinese">Indo-Chinese</button>
+                </div>
+            </div>
+
+            <!-- Menu Items Grid (Dynamic) -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Menu items will be injected here by JavaScript -->
+            </div>
+
+             <!-- Raw Goods -->
+            <div class="text-center mt-12 pt-6 border-t border-gray-300 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">RAW GOODS & EXTRAS</h3>
+                <p class="text-lg text-gray-600">Lassi / Dahi | Rasogolla (₹ 20/Pc) | Raw Paneer (₹ 250/Kg) | Ghee (₹ 600/Kg)</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp Cart Button -->
+    <button id="cart-button" class="bg-gray-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-full shadow-2xl flex items-center">
+        <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2a2 2 0 0 1 2 2m0-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4M5 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2a2 2 0 0 1 2 2m0-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4M2 2v2h2.2l3.2 9h10.4l3.2-9H22V2H2zm19.6 2h-15.5l-2 5h17.5z"/>
+        </svg>
+        CART (<span id="cart-count">0</span>) - Order via WhatsApp
+    </button>
+
+    <!-- Contact Footer -->
+    <footer id="contact" class="py-10 bg-gray-900 text-gray-400">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h4 class="text-2xl font-bold mb-4 text-orange-500">Contact & Location</h4>
+            <div class="space-y-1 text-sm">
+                <p><strong>Address:</strong> SRI MAYAPUR, NADIA, W.B. PIN-741313</p>
+                <p><strong>Proprietor:</strong> RAMAN GHOSH</p>
+                <p><strong>Mobile:</strong> <a href="tel:7001106491" class="hover:underline font-bold text-white">7001106491</a></p>
+            </div>
+            <p class="text-xs mt-6 text-gray-600">&copy; 2025 Vegetarian Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ---------------------------------------------------
+        // 1. MENU DATA STRUCTURE (Updated with specific placeholder image URLs)
+        // ---------------------------------------------------
+        const rawMenuData = [
+            // Main Course
+            { name: 'Kashmiri Alur Dom', priceLabel: '₹ 60 / 100', smallPrice: 60, largePrice: 100, category: 'Main Course', img: 'https://placehold.co/400x300/f8a35e/ffffff?text=Alu+Dom', description: 'Potatoes cooked in a rich, spicy Kashmiri-style gravy.' },
+            { name: 'Paneer Butter Masala', priceLabel: '₹ 100 / 180', smallPrice: 100, largePrice: 180, category: 'Main Course', img: 'https://placehold.co/400x300/ff5733/ffffff?text=Paneer+Butter+Masala', description: 'Creamy and mildly sweet gravy with soft paneer cubes.' },
+            { name: 'Matar Paneer', priceLabel: '₹ 120', singlePrice: 120, category: 'Main Course', img: 'https://placehold.co/400x300/81c784/374151?text=Matar+Paneer', description: 'Cottage cheese and green peas in a savory tomato-based sauce.' },
+            { name: 'Chana Paneer', priceLabel: '₹ 100', singlePrice: 100, category: 'Main Course', img: 'https://placehold.co/400x300/4db6ac/374151?text=Chana+Paneer', description: 'Chickpeas and paneer cooked together in a spiced gravy.' },
+            { name: 'Chana Masala / Tarka', priceLabel: '₹ 70', smallPrice: 70, singlePrice: 70, category: 'Main Course', img: 'https://placehold.co/400x300/9ccc65/374151?text=Chana+Tarka', description: 'Spicy and tangy chickpea curry or a lentil preparation.' },
+            { name: 'Spl. Soyabean', priceLabel: '₹ 100', singlePrice: 100, category: 'Main Course', img: 'https://placehold.co/400x300/ffb74d/374151?text=Soyabean+Curry', description: 'Soyabean chunks in a special homestyle gravy.' },
+            { name: 'Veg / Paneer Manchurian', priceLabel: '₹ 100 / 160', smallPrice: 100, largePrice: 160, category: 'Main Course', img: 'https://placehold.co/400x300/ef9a9a/374151?text=Manchurian+Gravy', description: 'Manchurian balls (Veg or Paneer) in savory gravy.' },
+
+            // Roti & Paratha
+            { name: 'Roti / Butter Roti (1 Pc)', priceLabel: '₹ 5 / 10', smallPrice: 5, largePrice: 10, category: 'Roti & Paratha', img: 'https://placehold.co/400x300/d7ccc8/374151?text=Roti', description: 'Plain or buttered tawa-cooked whole wheat bread.' },
+            { name: 'Plain / Lachha Paratha', priceLabel: '₹ 20 / 30', smallPrice: 20, largePrice: 30, category: 'Roti & Paratha', img: 'https://placehold.co/400x300/bcaaa4/374151?text=Lachha+Paratha', description: 'Layered, flaky paratha or plain shallow-fried paratha.' },
+            { name: 'Alu / Paneer Paratha', priceLabel: '₹ 50 / 70', smallPrice: 50, largePrice: 70, category: 'Roti & Paratha', img: 'https://placehold.co/400x300/8d6e63/ffffff?text=Stuffed+Paratha', description: 'Paratha stuffed with spiced mashed potato or paneer.' },
+            { name: 'Puri Sabji (4 Pcs)', priceLabel: '₹ 30', singlePrice: 30, category: 'Roti & Paratha', img: 'https://placehold.co/400x300/ff8a65/374151?text=Puri+Sabji', description: 'Deep-fried bread served with light potato curry.' },
+
+            // Rice & Biryani
+            { name: 'Veg / Paneer Biriyani', priceLabel: '₹ 120 / 150', smallPrice: 120, largePrice: 150, category: 'Rice & Biryani', img: 'https://placehold.co/400x300/ffb300/374151?text=Veg+Biriyani', description: 'Aromatic rice dish cooked with vegetables or paneer.' },
+            { name: 'Veg / Paneer Fried Rice', priceLabel: '₹ 100 / 120', smallPrice: 100, largePrice: 120, category: 'Rice & Biryani', img: 'https://placehold.co/400x300/aed581/374151?text=Fried+Rice', description: 'Chinese-style fried rice with vegetables or paneer.' },
+            { name: 'Zeera Rice / Veg Polao / Mix Rice', priceLabel: '₹ 80 / 120', smallPrice: 80, largePrice: 120, category: 'Rice & Biryani', img: 'https://placehold.co/400x300/ffe082/374151?text=Pulao', description: 'Flavored rice options including Cumin rice and Pulao.' },
+            
+            // Indo-Chinese
+            { name: 'Veg / Paneer Chowmein', priceLabel: '₹ 50 / 80', smallPrice: 50, largePrice: 80, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/80cbc4/374151?text=Chowmein', description: 'Stir-fried noodles with crisp vegetables or paneer.' },
+            { name: 'Paneer Chilli', priceLabel: '₹ 150 / 160', smallPrice: 150, largePrice: 160, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/ff7043/ffffff?text=Chilli+Paneer', description: 'Wok-tossed paneer cubes in spicy chili sauce (Dry/Gravy).' },
+            { name: 'Paneer Masala', priceLabel: '₹ 160', singlePrice: 160, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/ffb300/374151?text=Paneer+Masala', description: 'A separate Chinese-style paneer masala dish.' },
+            { name: 'Paneer 65 / Crispy', priceLabel: '₹ 160', singlePrice: 160, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/ff5722/ffffff?text=Paneer+65', description: 'Spicy, deep-fried paneer starter.' },
+            { name: 'Mushroom Chilli / Crispy', priceLabel: '₹ 120 / 130', smallPrice: 120, largePrice: 130, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/4dd0e1/374151?text=Mushroom+Chilli', description: 'Mushrooms prepared in Indo-Chinese chili or crispy style.' },
+            { name: 'Paneer Pasta', priceLabel: '₹ 120', singlePrice: 120, category: 'Indo-Chinese', img: 'https://placehold.co/400x300/ff8a65/374151?text=Pasta', description: 'Indian fusion pasta tossed with paneer and sauces.' },
+            
+            // Snacks & Dosa
+            { name: 'Masala / Paneer Dosa', priceLabel: '₹ 60 / 80', smallPrice: 60, largePrice: 80, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/ffc107/374151?text=Masala+Dosa', description: 'Crispy rice crepe with potato or paneer filling.' },
+            { name: 'Cheese Dosa', priceLabel: '₹ 100', singlePrice: 100, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/fff176/374151?text=Cheese+Dosa', description: 'Dosa filled with grated cheese.' },
+            { name: 'Samosa (1 Pc)', priceLabel: '₹ 10', singlePrice: 10, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/e0e0e0/374151?text=Samosa', description: 'Deep-fried pastry with spiced potato filling.' },
+            { name: 'Veg / Paneer Roll', priceLabel: '₹ 30 / 60', smallPrice: 30, largePrice: 60, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/ffccbc/374151?text=Veg+Roll', description: 'Roll stuffed with vegetables or paneer.' },
+            { name: 'Lachha Paneer Roll', priceLabel: '₹ 80', singlePrice: 80, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/ffab91/374151?text=Lachha+Roll', description: 'Flaky layered roll with paneer filling.' },
+            { name: 'Veg / Paneer Pakora (10 Pcs)', priceLabel: '₹ 100', singlePrice: 100, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/f8bbd0/374151?text=Pakora', description: 'Deep-fried vegetable or paneer fritters.' },
+            { name: 'Fried / Pan Fried Momo', priceLabel: '₹ 60 / 120', smallPrice: 60, largePrice: 120, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/c5cae9/374151?text=Momo', description: 'Steamed or fried vegetable dumplings.' },
+            { name: 'French Fry', priceLabel: '₹ 80', singlePrice: 80, category: 'Snacks & Dosa', img: 'https://placehold.co/400x300/90a4ae/ffffff?text=Fries', description: 'Classic salted potato fries.' },
+        ];
+
+
+        // ---------------------------------------------------
+        // 2. ORDERING LOGIC (Modified for +/- buttons)
+        // ---------------------------------------------------
+        let cart = {}; 
+        const whatsappNumber = '917001106491'; // Updated WhatsApp number
+
+        function updateCartCount() {
+            const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+            
+            const button = document.getElementById('cart-button');
+            if (totalItems > 0) {
+                button.classList.remove('bg-gray-500');
+                button.classList.add('bg-green-600', 'shadow-2xl');
+            } else {
+                button.classList.add('bg-gray-500');
+                button.classList.remove('bg-green-600', 'shadow-2xl');
+            }
+        }
+
+        function updateItemQuantity(itemId, size, name, price, delta) {
+            const key = `${itemId}-${size}`;
+            
+            if (!cart[key]) {
+                cart[key] = { name, size, price, qty: 0 };
+            }
+
+            cart[key].qty += delta;
+
+            if (cart[key].qty <= 0) {
+                delete cart[key];
+            }
+
+            // Update the display for the specific item card
+            const qtyElement = document.getElementById(`qty-${itemId}-${size}`);
+            if (qtyElement) {
+                const currentQty = cart[key]?.qty || 0;
+                qtyElement.textContent = currentQty;
+            }
+
+            updateCartCount();
+        }
+
+        function generateWhatsAppMessage() {
+            let message = "📝 *New Order for Vegetarian Cafe* 📝\n\n";
+            let totalAmount = 0;
+            let orderList = [];
+
+            for (const key in cart) {
+                const item = cart[key];
+                const itemTotal = item.qty * item.price;
+                totalAmount += itemTotal;
+
+                let sizeText = item.size !== 'Single' ? `(${item.size})` : '';
+                orderList.push(`${item.qty} x ${item.name} ${sizeText} - ₹${itemTotal}`);
+            }
+
+            if (orderList.length === 0) {
+                return "Your cart is empty. Please add some items before ordering!";
+            }
+
+            message += orderList.join('\n');
+            message += `\n\n💰 *TOTAL ESTIMATE: ₹${totalAmount}*`;
+            message += "\n\n---";
+            message += "\n(Please confirm your location/pickup time to Rajesh GHOSH)";
+
+            return encodeURIComponent(message);
+        }
+
+        function sendWhatsAppOrder() {
+            const encodedMessage = generateWhatsAppMessage();
+            if (encodedMessage.includes("empty")) {
+                showNotification("Cart Empty", "Please add some items to your cart before placing an order.", "error");
+                return;
+            }
+            
+            const url = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            window.open(url, '_blank');
+        }
+
+        function showNotification(title, message, type) {
+            const container = document.createElement('div');
+            container.className = 'fixed inset-0 bg-gray-900 bg-opacity-70 flex items-center justify-center z-[2000] p-4';
+            
+            const box = document.createElement('div');
+            box.className = 'bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full text-center border-t-4 border-orange-500';
+            box.innerHTML = `
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">${title}</h3>
+                <p class="text-gray-600 mb-6">${message}</p>
+                <button class="bg-orange-500 text-white py-2 px-6 rounded-full hover:bg-orange-600 transition-colors shadow-md" onclick="this.parentNode.parentNode.remove()">Close</button>
+            `;
+            container.appendChild(box);
+            document.body.appendChild(container);
+        }
+
+        // ---------------------------------------------------
+        // 3. DYNAMIC RENDERING & FILTERING 
+        // ---------------------------------------------------
+        let currentFilter = 'All';
+
+        function renderFilteredMenu(data) {
+             const grid = document.getElementById('menu-grid');
+            grid.innerHTML = '';
+            
+            if (data.length === 0) {
+                 grid.innerHTML = '<p class="text-center text-xl text-gray-500 col-span-full py-10">No items found matching your filter or search.</p>';
+                 return;
+            }
+
+            data.forEach((item, index) => {
+                const id = `item-${index}-${item.category.replace(/\s+/g, '')}`;
+                const isDualPrice = item.largePrice && item.largePrice !== item.smallPrice;
+                
+                let buttonsHtml = '';
+                let priceDisplay = '';
+
+                const currentSmallQty = cart[`${id}-Small`]?.qty || 0;
+                const currentLargeQty = cart[`${id}-Large`]?.qty || 0;
+                const currentSingleQty = cart[`${id}-Single`]?.qty || 0;
+
+                if (isDualPrice) {
+                    // Dual Price Item (Small / Large)
+                    
+                    // Small Item Controls
+                    buttonsHtml += `
+                        <div class="flex justify-between items-center w-full">
+                            <span class="text-sm font-medium text-gray-700">Small (₹${item.smallPrice})</span>
+                            <div class="flex items-center space-x-2">
+                                <button class="qty-btn bg-red-500 hover:bg-red-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Small', '${item.name}', ${item.smallPrice}, -1)">
+                                    -
+                                </button>
+                                <span id="qty-${id}-Small" class="text-base font-medium w-6 text-center">${currentSmallQty}</span>
+                                <button class="qty-btn bg-green-600 hover:bg-green-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Small', '${item.name}', ${item.smallPrice}, 1)">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    // Large Item Controls
+                    buttonsHtml += `
+                        <div class="flex justify-between items-center w-full mt-2">
+                            <span class="text-sm font-medium text-gray-700">Large (₹${item.largePrice})</span>
+                            <div class="flex items-center space-x-2">
+                                <button class="qty-btn bg-red-500 hover:bg-red-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Large', '${item.name}', ${item.largePrice}, -1)">
+                                    -
+                                </button>
+                                <span id="qty-${id}-Large" class="text-base font-medium w-6 text-center">${currentLargeQty}</span>
+                                <button class="qty-btn bg-green-600 hover:bg-green-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Large', '${item.name}', ${item.largePrice}, 1)">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    priceDisplay = `<span class="text-xl price-text">₹${item.smallPrice} - ₹${item.largePrice}</span>`;
+
+                } else {
+                    // Single Price Item
+                    const price = item.singlePrice || item.smallPrice;
+                    buttonsHtml = `
+                        <div class="flex justify-between items-center w-full">
+                            <span class="text-sm font-medium text-gray-700">Quantity</span>
+                            <div class="flex items-center space-x-2">
+                                <button class="qty-btn bg-red-500 hover:bg-red-600 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Single', '${item.name}', ${price}, -1)">
+                                    -
+                                </button>
+                                <span id="qty-${id}-Single" class="text-base font-medium w-6 text-center">${currentSingleQty}</span>
+                                <button class="qty-btn bg-green-600 hover:bg-green-700 text-white font-bold w-6 h-6 rounded-full flex items-center justify-center text-sm" 
+                                        onclick="updateItemQuantity('${id}', 'Single', '${item.name}', ${price}, 1)">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    priceDisplay = `<span class="text-2xl price-text">₹${price}</span>`;
+                }
+                
+                const itemHtml = `
+                    <div class="menu-item-card bg-white rounded-xl shadow-lg overflow-hidden" data-category="${item.category}" data-name="${item.name.toLowerCase()}">
+                        <!-- Image and Price Tag -->
+                        <div class="relative">
+                            <img src="${item.img}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e0e0e0/374151?text=Image+Unavailable';" alt="${item.name}" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 bg-white/90 text-orange-600 text-lg font-bold px-3 py-1 rounded-full shadow-md">
+                                ${priceDisplay}
+                            </div>
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="p-4">
+                            <h3 class="font-bold text-gray-900 mb-1">${item.name}</h3>
+                            <p class="text-xs font-medium text-gray-500 uppercase mb-2">${item.category}</p>
+                            <p class="text-sm text-gray-700 h-10 overflow-hidden">${item.description}</p>
+                        </div>
+                        
+                        <!-- Quantity Selector -->
+                        <div class="p-4 border-t border-gray-100">
+                            <div class="flex flex-col space-y-2">
+                                ${buttonsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += itemHtml;
+            });
+        }
+        
+        function setActiveTab(category) {
+            document.querySelectorAll('.menu-tab').forEach(tab => {
+                tab.classList.remove('tab-active', 'bg-orange-500', 'text-white');
+                tab.classList.add('bg-white', 'text-gray-600', 'hover:bg-gray-100');
+                if (tab.dataset.category === category) {
+                    tab.classList.add('tab-active', 'bg-orange-500', 'text-white');
+                }
+            });
+        }
+
+        function filterMenu() {
+            const searchTerm = document.getElementById('menu-search').value.toLowerCase();
+            
+            const filteredData = rawMenuData.filter(item => 
+                (currentFilter === 'All' || item.category === currentFilter) &&
+                (item.name.toLowerCase().includes(searchTerm) || item.description.toLowerCase().includes(searchTerm))
+            );
+
+            // Re-render based on filtered data only
+            renderFilteredMenu(filteredData);
+        }
+        
+        function setupTabs() {
+            document.querySelectorAll('.menu-tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    currentFilter = e.target.dataset.category;
+                    setActiveTab(currentFilter);
+                    document.getElementById('menu-search').value = ''; // Clear search on tab change
+                    renderFilteredMenu(rawMenuData.filter(item => currentFilter === 'All' || item.category === currentFilter));
+                });
+            });
+        }
+
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupTabs();
+            // Initial render
+            renderFilteredMenu(rawMenuData);
+            document.getElementById('cart-button').addEventListener('click', sendWhatsAppOrder);
+            document.getElementById('menu-search').addEventListener('keyup', filterMenu);
+            updateCartCount(); // Initialize cart button state
+        });
+
+    </script>
+</body>
+</html>
