@@ -69,6 +69,27 @@
              transition: background-color 0.2s;
              box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
         }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 10000;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -166,17 +187,7 @@
                 </div>
             </div>
 
-            <!-- Customer Location Input -->
-            <div class="max-w-xl mx-auto mb-10 bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                <label for="customer-location" class="block text-lg font-bold text-gray-800 mb-2 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                    </svg>
-                    Your Delivery Location / Address:
-                </label>
-                <input type="text" id="customer-location" placeholder="E.g., Room No. 34, Guest House A" class="w-full p-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" required>
-                <p class="text-xs text-gray-500 mt-2">Please enter your precise location or address for timely service.</p>
-            </div>
+            <!-- Removed inline location input -->
 
             <!-- Menu Items Grid (Dynamic) -->
             <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -193,7 +204,7 @@
     </section>
 
     <!-- Floating WhatsApp Cart Button -->
-    <button id="cart-button" class="bg-gray-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-full shadow-2xl flex items-center">
+    <button id="cart-button" class="bg-gray-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-full shadow-2xl flex items-center" onclick="sendWhatsAppOrder()">
         <svg class="w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2a2 2 0 0 1 2 2m0-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4M5 18a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2a2 2 0 0 1 2 2m0-4a4 4 0 0 0-4 4a4 4 0 0 0 4 4a4 4 0 0 0 4-4a4 4 0 0 0-4-4M2 2v2h2.2l3.2 9h10.4l3.2-9H22V2H2zm19.6 2h-15.5l-2 5h17.5z"/>
         </svg>
@@ -212,6 +223,64 @@
             <p class="text-xs mt-6 text-gray-600">&copy; 2025 Vegetarian Cafe. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Customer Details Modal -->
+    <div id="customer-details-modal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="flex justify-between items-center bg-orange-500 text-white p-4">
+                <h3 class="text-xl font-bold">Customer Details</h3>
+                <button onclick="closeModal()" class="text-xl font-bold p-1 hover:bg-orange-600 rounded-full">
+                    &times;
+                </button>
+            </div>
+            
+            <!-- Body -->
+            <div class="p-6 space-y-4">
+                <p class="text-sm text-gray-600 text-center">আপনার বিবরণ লিখুন অর্ডারটি WhatsApp-এর মাধ্যমে পাঠাতে।</p>
+                
+                <!-- Name -->
+                <div>
+                    <label for="customer-name" class="block text-sm font-medium text-gray-700">আপনার নাম (Your Name)</label>
+                    <input type="text" id="customer-name" placeholder="E.g., Krishna Das" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                
+                <!-- Phone -->
+                <div>
+                    <!-- EDITED LABEL HERE -->
+                    <label for="customer-phone" class="block text-sm font-medium text-gray-700">ফোন নম্বর (যেটি WhatsApp-এ আছে) (Phone Number - WhatsApp)</label>
+                    <input type="tel" id="customer-phone" placeholder="E.g., 9876543210" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+
+                <!-- Location -->
+                <div>
+                    <label for="customer-location" class="block text-sm font-medium text-gray-700">টেবিল / লোকেশন (Table / Location)</label>
+                    <input type="text" id="customer-location" placeholder="E.g., Room No. 34, Guest House A" class="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+
+                <!-- Summary -->
+                <div class="border-t pt-4">
+                    <div class="flex justify-between font-medium text-gray-800">
+                        <span>মোট আইটেম (Total Items):</span>
+                        <span id="modal-item-count">0</span>
+                    </div>
+                    <div class="flex justify-between text-xl font-bold mt-2">
+                        <span>গ্র্যান্ড টোটাল (Grand Total):</span>
+                        <span id="modal-grand-total" class="text-orange-600">₹ 0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Button -->
+            <div class="p-4 bg-gray-50">
+                 <button onclick="confirmOrderViaWhatsApp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg flex items-center justify-center transition-colors">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 00.183.69l.07.07A1 1 0 003 18h14a1 1 0 00.894-1.447l-7-14z" /></svg>
+                    Send Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // ---------------------------------------------------
@@ -259,10 +328,10 @@
 
 
         // ---------------------------------------------------
-        // 2. ORDERING LOGIC (Modified for +/- buttons)
+        // 2. ORDERING LOGIC
         // ---------------------------------------------------
         let cart = {}; 
-        const whatsappNumber = '919614895066'; // UPDATED WhatsApp number
+        const restaurantWhatsappNumber = '919614895066'; // Restaurant's WhatsApp number
 
         function updateCartCount() {
             const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
@@ -300,31 +369,79 @@
 
             updateCartCount();
         }
-
-        function generateWhatsAppMessage() {
-            const locationInput = document.getElementById('customer-location');
-            const customerLocation = locationInput.value.trim();
+        
+        // Function to show the modal
+        function showCustomerDetailsModal() {
+            const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
             
-            if (customerLocation === "") {
-                showNotification("Location Required", "Please enter your address or location before sending the order.", "error");
-                // Add temporary visual cue for required input
-                locationInput.classList.add('border-red-500', 'ring-2', 'ring-red-500');
-                setTimeout(() => {
-                    locationInput.classList.remove('border-red-500', 'ring-2', 'ring-red-500');
-                }, 2000);
-                return null; // Return null if location is missing
+            if (totalItems === 0) {
+                showNotification("Cart Empty", "অনুগ্রহ করে অর্ডার করার আগে মেনু থেকে কিছু আইটেম যোগ করুন। (Please add some items from the menu before placing an order.)", "error");
+                return;
             }
 
+            let grandTotal = 0;
+            for (const key in cart) {
+                if (cart[key].qty > 0) {
+                    grandTotal += cart[key].qty * cart[key].price;
+                }
+            }
 
+            document.getElementById('modal-item-count').textContent = totalItems;
+            document.getElementById('modal-grand-total').textContent = `₹ ${grandTotal}`;
+            document.getElementById('customer-details-modal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('customer-details-modal').style.display = 'none';
+        }
+
+        function generateWhatsAppMessage(customerData, totalAmount, orderList) {
             let message = "📝 *New Order for Vegetarian Cafe* 📝\n\n";
+            
+            message += `👤 *Customer Name*: ${customerData.name}\n`;
+            message += `📞 *WhatsApp Phone*: ${customerData.phone}\n`;
+            message += `📍 *Location/Table*: ${customerData.location}\n\n`;
+
+            message += "*--- Order Details ---*\n";
+            message += orderList.join('\n');
+            
+            message += `\n\n💰 *GRAND TOTAL: ₹${totalAmount}*`;
+            message += "\n\n---";
+            message += "\n(Please confirm the order and details to the customer)";
+
+            return encodeURIComponent(message);
+        }
+
+        function confirmOrderViaWhatsApp() {
+            const nameInput = document.getElementById('customer-name');
+            const phoneInput = document.getElementById('customer-phone');
+            const locationInput = document.getElementById('customer-location');
+
+            const customerData = {
+                name: nameInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                location: locationInput.value.trim()
+            };
+
+            // Basic Validation
+            if (customerData.name === "" || customerData.phone === "" || customerData.location === "") {
+                showNotification("Information Required", "অনুগ্রহ করে নাম, ফোন এবং লোকেশন সবগুলি ঘর পূরণ করুন। (Please fill in all fields: Name, Phone, and Location.)", "error");
+                // Add temporary visual cue for required inputs
+                [nameInput, phoneInput, locationInput].forEach(input => {
+                    if (input.value.trim() === "") {
+                        input.classList.add('border-red-500', 'ring-2', 'ring-red-500');
+                        setTimeout(() => input.classList.remove('border-red-500', 'ring-2', 'ring-red-500'), 2000);
+                    }
+                });
+                return; 
+            }
+            
+            // Build Order List and Total
             let totalAmount = 0;
             let orderList = [];
-
-            console.log('Current Cart State being processed:', cart); // DEBUG LOG
             
             for (const key in cart) {
                 const item = cart[key];
-                // Ensure the item has a valid quantity before pushing to the list
                 if (item.qty > 0) {
                     const itemTotal = item.qty * item.price;
                     totalAmount += itemTotal;
@@ -333,33 +450,23 @@
                     orderList.push(`${item.qty} x ${item.name} ${sizeText} - ₹${itemTotal}`);
                 }
             }
-
+            
             if (orderList.length === 0) {
-                return "Your cart is empty. Please add some items before ordering!";
+                 showNotification("Cart Empty", "আপনার কার্ট খালি। অর্ডার করার আগে আইটেম যোগ করুন। (Your cart is empty. Add items before ordering.)", "error");
+                 closeModal();
+                 return;
             }
 
-            message += `📍 *Delivery Location*: ${customerLocation}\n\n`;
-            message += orderList.join('\n');
-            message += `\n\n💰 *TOTAL ESTIMATE: ₹${totalAmount}*`;
-            message += "\n\n---";
-            message += "\n(Please confirm your location/pickup time to VEGETARIAN CAFE)";
-
-            return encodeURIComponent(message);
+            const encodedMessage = generateWhatsAppMessage(customerData, totalAmount, orderList);
+            const url = `https://wa.me/${restaurantWhatsappNumber}?text=${encodedMessage}`;
+            
+            // Open WhatsApp and close modal
+            window.open(url, '_blank');
+            closeModal();
         }
 
         function sendWhatsAppOrder() {
-            const encodedMessage = generateWhatsAppMessage();
-            if (encodedMessage === null) {
-                // Location error already handled by showNotification
-                return;
-            }
-            if (encodedMessage.includes("empty")) {
-                showNotification("Cart Empty", "Please add some items to your cart before placing an order.", "error");
-                return;
-            }
-            
-            const url = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-            window.open(url, '_blank');
+            showCustomerDetailsModal();
         }
 
         function showNotification(title, message, type) {
@@ -374,7 +481,7 @@
             box.innerHTML = `
                 <h3 class="text-2xl font-bold text-gray-800 mb-3">${title}</h3>
                 <p class="text-gray-600 mb-6">${message}</p>
-                <button class="text-white py-2 px-6 rounded-full transition-colors shadow-md ${buttonColor}" onclick="this.parentNode.parentNode.remove()">Close</button>
+                <button class="text-white py-2 px-6 rounded-full transition-colors shadow-md ${buttonColor}" onclick="this.parentNode.parentNode.remove()">বন্ধ করুন (Close)</button>
             `;
             container.appendChild(box);
             document.body.appendChild(container);
@@ -534,7 +641,7 @@
             setupTabs();
             // Initial render
             renderFilteredMenu(rawMenuData);
-            document.getElementById('cart-button').addEventListener('click', sendWhatsAppOrder);
+            // document.getElementById('cart-button').addEventListener('click', sendWhatsAppOrder); // Click is already set inline
             document.getElementById('menu-search').addEventListener('keyup', filterMenu);
             updateCartCount(); // Initialize cart button state
         });
@@ -542,4 +649,3 @@
     </script>
 </body>
 </html>
-
